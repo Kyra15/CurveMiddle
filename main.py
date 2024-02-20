@@ -51,7 +51,6 @@ def imgPipeline(image, thresh):
     if len(new) > 1:
         c1 = new[-1]
         c2 = new[-2]
-        cv2.drawContours(image, contours, -1, (255, 0, 0), 10)
 
         outline1 = cv2.approxPolyDP(c1, 4, False)
         cv2.drawContours(image, [outline1], -1, (0, 0, 255), 10)
@@ -74,12 +73,6 @@ def imgPipeline(image, thresh):
     return image
 
 
-# img = cv2.imread("curved.png")
-# cv2.imshow("source", imgPipeline(img, 100))
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
-
-
 # Open the camera stream for processing
 camera = cv2.VideoCapture(0)
 if not camera.isOpened():
@@ -91,6 +84,6 @@ while True:
     if not ret:
         print("Cannot receive frame. Assuming stream end. Process killed")
         break
-    cv2.imshow('Source View', imgPipeline(frame, 150))
+    cv2.imshow('MiddleLine', imgPipeline(frame, 150))
     if cv2.waitKey(1) == ord('q'):
         break
