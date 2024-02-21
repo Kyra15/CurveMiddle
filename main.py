@@ -1,4 +1,3 @@
-# import necessary libraries
 import numpy as np
 import cv2
 import imutils
@@ -12,7 +11,7 @@ def region_of_interest(img, vertices):  # define mask for area of interest
     return masked_image
 
 
-def imgPipeline(image, thresh):
+def imgPipeline(image):
 
     height = image.shape[0]  # 1080
     width = image.shape[1]  # 1920
@@ -31,7 +30,7 @@ def imgPipeline(image, thresh):
 
     gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     blur = cv2.GaussianBlur(gray_image, (5, 5), 0)
-    cannyed_image = cv2.Canny(blur, threshold1=thresh, threshold2=thresh * 2, apertureSize=3)
+    cannyed_image = cv2.Canny(blur, 200, 250, apertureSize=5)
 
     cropped_image = region_of_interest(
         cannyed_image,
@@ -85,6 +84,6 @@ while True:
     if not ret:
         print("Cannot receive frame. Assuming stream end. Process killed")
         break
-    cv2.imshow('MiddleLine', imgPipeline(frame, 150))
+    cv2.imshow('MiddleLine', imgPipeline(frame))
     if cv2.waitKey(1) == ord('q'):
         break
