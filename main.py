@@ -1,8 +1,10 @@
+# import necessary libraries
 import numpy as np
 import cv2
 import imutils
 
 
+# create a mask and return the masked frame
 def region_of_interest(img, vertices):  # define mask for area of interest
     mask = np.zeros_like(img)
     match_mask_color = 255
@@ -11,8 +13,16 @@ def region_of_interest(img, vertices):  # define mask for area of interest
     return masked_image
 
 
-def imgPipeline(image):
+# appl a grayscale filter, 
+def filters(img):
+    gray_image = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    blur = cv2.GaussianBlur(gray_image, (5, 5), 0)
+    cannyed_image = cv2.Canny(blur, 200, 250, apertureSize=5)
+    return cannyed_image
 
+
+#
+def processing(image):
     height = image.shape[0]  # 1080
     width = image.shape[1]  # 1920
 
@@ -28,20 +38,15 @@ def imgPipeline(image):
         (minx0, maxy0)
     ]
 
-    gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    blur = cv2.GaussianBlur(gray_image, (5, 5), 0)
-    cannyed_image = cv2.Canny(blur, 200, 250, apertureSize=5)
+    filtered_img = filters(image)
 
     cropped_image = region_of_interest(
-        cannyed_image,
-        # threshold_image,
+        filtered_img,
         np.array(
             [region_of_interest_vertices],
             np.int32
         ),
     )
-
-    # https://pyimagesearch.com/2021/10/06/opencv-contour-approximation/
 
     contours, hierarchy = cv2.findContours(cropped_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours = imutils.grab_contours((contours, hierarchy))
@@ -84,6 +89,6 @@ while True:
     if not ret:
         print("Cannot receive frame. Assuming stream end. Process killed")
         break
-    cv2.imshow('MiddleLine', imgPipeline(frame))
+    cv2.imshow('MiddleLine', processing(frame))
     if cv2.waitKey(1) == ord('q'):
         break
