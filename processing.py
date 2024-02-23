@@ -65,7 +65,7 @@ def process(image):
         midline = np.array(midline, dtype=np.int32)
 
         # draw a polyline from the numpy array onto the frame
-        cv2.polylines(image, [midline], False, (0, 255, 0), 10)
+        cv2.polylines(image, [midline], False, (0, 255, 0), 20)
 
     # draw a rectangle on the frame to show the mask and return the final frame
     cv2.rectangle(image, (minx0, miny0), (maxx0, maxy0), (255, 0, 0), 10)
