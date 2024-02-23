@@ -5,7 +5,7 @@ import numpy as np
 
 # function that created a mask on an image given the coordinates of the mask
 # and returns the masked image
-def region_of_interest(img, vertices):  # define mask for area of interest
+def masking(img, vertices):  # define mask for area of interest
     mask = np.zeros_like(img)
     match_mask_color = 255
     cv2.fillPoly(mask, vertices, match_mask_color)
