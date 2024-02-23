@@ -13,7 +13,7 @@ def process(image):
     maxx0 = round(width * 0.8)
     maxy0 = round(height * 0.9)
 
-    region_of_interest_vertices = [
+    mask_vertices = [
         (minx0, miny0),
         (maxx0, miny0),
         (maxx0, maxy0),
@@ -24,7 +24,7 @@ def process(image):
     filtered_img = filters(image)
 
     # apply the mask onto the given frame
-    cropped_image = masking(filtered_img, np.array([region_of_interest_vertices], np.int32))
+    cropped_image = masking(filtered_img, np.array([mask_vertices], np.int32))
 
     # find the contours on the image
     contours, hierarchy = cv2.findContours(cropped_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
