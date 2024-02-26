@@ -28,7 +28,6 @@ def process(image):
 
     # find the contours on the image
     contours, hierarchy = cv2.findContours(cropped_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    # contours = imutils.grab_contours((contours, hierarchy))
 
     # sort the list of contours by the contour area
     new = list(contours)
