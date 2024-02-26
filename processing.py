@@ -42,16 +42,16 @@ def process(image):
 
         # fit polylines to each contour
         outline1 = cv2.approxPolyDP(c1, 4, True)
-        cv2.drawContours(image, [outline1], -1, (0, 0, 255), 10)
+        cv2.drawContours(image, [outline1], -1, (0, 255, 255), 15)
 
         outline2 = cv2.approxPolyDP(c2, 4, True)
-        cv2.drawContours(image, [outline2], -1, (0, 255, 255), 10)
+        cv2.drawContours(image, [outline2], -1, (0, 255, 255), 15)
 
         # draw a midline by going through the polyline and averaging each x and y coordinate
         # append this averaged coordinate to a list and turn that list into a numpy array
         midline = []
 
-        for pt1, pt2 in zip(outline1, outline2):
+        for pt1, pt2 in zip(outline1[:int(len(outline1)/1.8)], outline2[:int(len(outline2)//1.8)]):
             mid_x = int((pt1[0][0] + pt2[0][0])/2)
             mid_y = int((pt1[0][1] + pt2[0][1])/2)
             midline.append([[mid_x, mid_y]])
@@ -59,7 +59,7 @@ def process(image):
         midline = np.array(midline, dtype=np.int32)
 
         # draw a polyline from the numpy array onto the frame
-        cv2.polylines(image, [midline], False, (0, 255, 0), 20)
+        cv2.polylines(image, [midline], False, (0, 255, 0), 15)
 
     # draw a rectangle on the frame to show the mask and return the final frame
     cv2.rectangle(image, (minx0, miny0), (maxx0, maxy0), (255, 0, 0), 10)
