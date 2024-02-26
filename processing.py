@@ -28,6 +28,7 @@ def process(image):
 
     # find the contours on the image
     contours, hierarchy = cv2.findContours(cropped_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # contours = imutils.grab_contours((contours, hierarchy))
 
     # sort the list of contours by the contour area
     new = list(contours)
@@ -50,7 +51,7 @@ def process(image):
         # append this averaged coordinate to a list and turn that list into a numpy array
         midline = []
 
-        for pt1, pt2 in zip(outline1[:int(len(outline1)/1.8)], outline2[:int(len(outline2)//1.8)]):
+        for pt1, pt2 in zip(outline1[:int(len(outline1)/1.8)], outline2[:int(len(outline2)/1.8)]):
             mid_x = int((pt1[0][0] + pt2[0][0])/2)
             mid_y = int((pt1[0][1] + pt2[0][1])/2)
             midline.append([[mid_x, mid_y]])
